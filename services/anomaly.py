@@ -98,16 +98,15 @@ def detect_anomalies_zscore(
             mean = group['value'].mean()
             std = group['value'].std()
             
-            if std > 0:  # Avoid division by zero
+            if std > 0:
                 z_scores = abs((group['value'] - mean) / std)
                 threshold = abs(stats.norm.ppf((1 - config.sensitivity) / 2))
                 anomaly_indices = group.index[z_scores > threshold]
                 data.loc[anomaly_indices, 'anomaly'] = True
     
-    # Get anomalies
+    
     anomalies = data[data['anomaly']].copy()
     
-    # Calculate metrics
     metrics = {
         'total_points': len(data),
         'anomaly_points': len(anomalies),

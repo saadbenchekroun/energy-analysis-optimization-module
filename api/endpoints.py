@@ -12,8 +12,12 @@ from services.optimization import optimize_load_shifting, optimize_demand_respon
 from services.recommendation import generate_lighting_recommendations, generate_hvac_recommendations
 from utils.storage import save_model
 from datetime import datetime, timedelta
+from router import router
 
-import router from .router
+from utils.db import get_db_pool
+import logging
+import pandas as pd
+import json
 
 # API Endpoints
 @router.post("/baseline-model", response_model=BaselineModelResponse)
@@ -111,7 +115,7 @@ async def detect_anomalies(
         )
         
         # Get weather data for the same period
-# Get weather data for the same period
+        # Get weather data for the same period
         weather_data = await get_weather_data(db_pool, start_time, end_time)
         
         # Merge data
